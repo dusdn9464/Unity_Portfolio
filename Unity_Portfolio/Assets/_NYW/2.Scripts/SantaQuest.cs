@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SantaQuest : MonoBehaviour
 {
-    public GameObject santaQuest;
+    public GameObject bButton;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            santaQuest.SetActive(true);
+            bButton.SetActive(true);
         }
 
     }
@@ -19,7 +19,7 @@ public class SantaQuest : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            santaQuest.SetActive(false);
+            bButton.SetActive(false);
         }
     }
 }
