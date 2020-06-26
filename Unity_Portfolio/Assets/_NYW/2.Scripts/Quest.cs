@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Quest : MonoBehaviour
 {
+    public GameObject questPanel;
+    public GameObject questNotice;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,16 +16,16 @@ public class Quest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnYesButtonClick()
     {
-
+        questPanel.SetActive(false);
     }
 
     public void OnNoButtonClick()
     {
-
+        questPanel.SetActive(false);
     }
 }

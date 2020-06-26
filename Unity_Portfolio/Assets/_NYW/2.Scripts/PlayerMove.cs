@@ -11,8 +11,7 @@ public class PlayerMove : MonoBehaviour
     CharacterController cc;
     Animator anim;
 
-    //public PlayerAnim playerAnim;
-    //public Animation anim;
+    public VariableJoystick joystick;       //조이스틱
 
     //중력적용
     public float gravity = -20f;

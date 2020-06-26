@@ -4,22 +4,40 @@ using UnityEngine;
 
 public class SantaQuest : MonoBehaviour
 {
-    public GameObject bButton;
+    public GameObject interButton;
+    public GameObject questPanel;
+
+    bool isButton = false;
+
+    private void Update()
+    {
+        if(isButton)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Debug.Log("확인");
+                questPanel.SetActive(true);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            bButton.SetActive(true);
+            interButton.SetActive(true);
+            isButton = true;
+            
         }
-
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            bButton.SetActive(false);
+            interButton.SetActive(false);
+            questPanel.SetActive(false);
+            isButton = false;
         }
     }
 }
