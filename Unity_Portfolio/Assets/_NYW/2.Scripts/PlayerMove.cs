@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +12,16 @@ public class PlayerMove : MonoBehaviour
 
     public VariableJoystick joystick;       //조이스틱
 
+    public GameObject bulletFactory;
+    public GameObject firePoint;
+    public GameObject attackEffect;
+
+    //오브젝트 풀링
+    int poolSize = 20;
+    int fireIndex = 0;
+    //리스트
+    public List<GameObject> bulletPool;
+
     //중력적용
     public float gravity = -20f;
     float velocityY;    //낙하속도(벨로시티는 방향과 힘을 들고 있다)
@@ -25,9 +34,20 @@ public class PlayerMove : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
-        //anim = GetComponent<Animation>();
-        //anim.clip = playerAnim.idle;
-        //anim.Play();
+        //오브젝트 풀링 초기화
+        InitObjectPooling();
+    }
+
+    private void InitObjectPooling()
+    {
+        //2. 리스트
+        bulletPool = new List<GameObject>();
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject bullet = Instantiate(bulletFactory);
+            bullet.SetActive(false);
+            bulletPool.Add(bullet);
+        }
     }
 
     // Update is called once per frame
@@ -81,7 +101,37 @@ public class PlayerMove : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            anim.SetTrigger("Attack");
+            int randomAtk = Random.Range(1,4);
+            if (randomAtk == 1)
+            {
+                anim.SetTrigger("Attack1");
+                //2. 리스트 오브젝트풀링으로 총알발사         
+                bulletPool[fireIndex].SetActive(true);
+                bulletPool[fireIndex].transform.position = firePoint.transform.position;
+                bulletPool[fireIndex].transform.forward = firePoint.transform.forward;
+                fireIndex++;
+                if (fireIndex >= poolSize) fireIndex = 0;
+            }
+            else if(randomAtk == 2)
+            {
+                anim.SetTrigger("Attack2");
+                //2. 리스트 오브젝트풀링으로 총알발사         
+                bulletPool[fireIndex].SetActive(true);
+                bulletPool[fireIndex].transform.position = firePoint.transform.position;
+                bulletPool[fireIndex].transform.forward = firePoint.transform.forward;
+                fireIndex++;
+                if (fireIndex >= poolSize) fireIndex = 0;
+            }
+            else if(randomAtk == 3)
+            {
+                anim.SetTrigger("Attack3");
+                //2. 리스트 오브젝트풀링으로 총알발사         
+                bulletPool[fireIndex].SetActive(true);
+                bulletPool[fireIndex].transform.position = firePoint.transform.position;
+                bulletPool[fireIndex].transform.forward = firePoint.transform.forward;
+                fireIndex++;
+                if (fireIndex >= poolSize) fireIndex = 0;
+            }
         }
     }
 }
