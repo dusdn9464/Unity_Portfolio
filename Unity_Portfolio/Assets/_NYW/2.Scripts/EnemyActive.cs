@@ -16,10 +16,12 @@ public class EnemyActive : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         isTouch = true;
+
     }
 
     public void OnTriggerExit(Collider other)
     {
         isTouch = false;
+
     }
 }

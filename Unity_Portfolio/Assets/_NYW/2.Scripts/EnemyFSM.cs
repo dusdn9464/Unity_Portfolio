@@ -5,6 +5,11 @@ using UnityEngine.AI;
 
 public class EnemyFSM : MonoBehaviour
 {
+    //싱글톤만들기
+    public static EnemyFSM instance;
+
+
+
     //몬스터 상태 이넘문
     enum EnemyState
     {
@@ -32,10 +37,20 @@ public class EnemyFSM : MonoBehaviour
     int att = 5; //공격력
     float speed = 5.0f; //이동속도
 
+    //몬스터 체력바
+    public GameObject hpbarCanvas;
+
+    //피격이펙트
+    public GameObject fxFactory;
+
     //공격 딜레이
     float attTime = 2f; //2초에 한번 공격
     float timer = 0f; //타이머
 
+    public void Awake()
+    {
+        EnemyFSM.instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -62,13 +77,15 @@ public class EnemyFSM : MonoBehaviour
         {
             findRange = 15f;
             moveRange = 30f;
+            hpbarCanvas.SetActive(true);
         }
         else
         {
             findRange = 0f;
             moveRange = 0f;
+            hpbarCanvas.SetActive(false);
             //state = EnemyState.Return;
-            print("상태전환 : Move -> return");
+            //print("상태전환 : Move -> return");
         }
         //상태에 따른 행동처리
         switch (state)
@@ -86,10 +103,10 @@ public class EnemyFSM : MonoBehaviour
                 Return();
                 break;
             case EnemyState.Damaged:
-                //Damaged();
+                Damaged();
                 break;
             case EnemyState.Die:
-                //Die();
+                Die();
                 break;
         }
     }//end of void Update()
@@ -226,6 +243,23 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        state = EnemyState.Damaged;
+
+        Debug.Log("총알 맞음");
+
+        if(collision.gameObject.name.Contains("Bullet"))
+        {
+            collision.gameObject.SetActive(false);
+        }
+
+        //이펙트 보여주기
+        GameObject fx = Instantiate(fxFactory);
+        fx.transform.position = transform.position;
+        Destroy(fx, 1.0f);
+    }
+
     //피격상태 (Any State)
     private void Damaged()
     { 
@@ -240,7 +274,7 @@ public class EnemyFSM : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         //현재상태를 이동으로 전환
         state = EnemyState.Move;
-        print("상태전환 : Damaged -> Move");
+        //print("상태전환 : Damaged -> Move");
         anim.SetTrigger("Move");
     }
 
@@ -269,7 +303,7 @@ public class EnemyFSM : MonoBehaviour
 
         //2초후에 자기자신을 제거한다
         yield return new WaitForSeconds(2.0f);
-        print("죽었다!!");
+        //print("죽었다!!");
         Destroy(gameObject);
     }
 

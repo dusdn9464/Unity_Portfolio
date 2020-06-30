@@ -6,6 +6,14 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float speed = 5.0f;
+    public float damage = 10.0f;
+
+    public static PlayerMove instance;
+
+    public void Awake()
+    {
+        PlayerMove.instance = this;
+    }
 
     CharacterController cc;
     Animator anim;
