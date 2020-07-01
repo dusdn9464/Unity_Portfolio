@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHpBar : MonoBehaviour
 {
-    public GameObject hpBar = null;
+    public Slider hpBar;
+    public GameObject enemy;
 
-    List<Transform> enemyPoint = new List<Transform>();
-    List<GameObject> enemyHpBarList = new List<GameObject>();
 
     Camera mainCam = null;
+
+    public float enemyMaxHp = 500f;
+    float currentHp = 500f;
+
+    //피격이펙트
+    public GameObject fxFactory;
 
     public static EnemyHpBar instance;
 
@@ -23,22 +29,39 @@ public class EnemyHpBar : MonoBehaviour
     {
         mainCam = Camera.main;
 
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Enemy");
-        for(int i=0; i<objects.Length;i++)
-        {
-            enemyPoint.Add(objects[i].transform);
-            GameObject t_hpbar = Instantiate(hpBar, objects[i].transform.position, Quaternion.identity, transform);
-            enemyHpBarList.Add(t_hpbar);
-        }
+        //Slider t_hpbar = Instantiate(hpBar, enemy.transform.position, Quaternion.identity, transform);
     }
 
     // Update is called once per frame
     void Update()
     {
-        for(int i=0; i<enemyPoint.Count;i++)
-        {
-            enemyHpBarList[i].transform.position = mainCam.WorldToScreenPoint(enemyPoint[i].position + new Vector3(0, 1.15f, 0));
+        hpBar.value = Mathf.Lerp(hpBar.value, currentHp / enemyMaxHp, 5f * Time.deltaTime);
+        hpBar.transform.position = transform.position + new Vector3(0, 0.8f, 0);
+        //hpBar.transform.position = mainCam.WorldToScreenPoint(enemy.transform.position + new Vector3(0, 1.15f, 0));
+    }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        EnemyFSM.instance.state = EnemyFSM.EnemyState.Damaged;
+
+        Debug.Log("총알 맞음");
+
+        if (collision.gameObject.name.Contains("Bullet"))
+        {
+            if (currentHp > 0)
+            {
+                currentHp -= 100f;
+                collision.gameObject.SetActive(false);
+            }
+            else
+            {
+                EnemyFSM.instance.state = EnemyFSM.EnemyState.Die;
+            }
         }
+
+        //이펙트 보여주기
+        GameObject fx = Instantiate(fxFactory);
+        fx.transform.position = transform.position;
+        Destroy(fx, 1.0f);
     }
 }

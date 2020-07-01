@@ -11,7 +11,7 @@ public class EnemyFSM : MonoBehaviour
 
 
     //몬스터 상태 이넘문
-    enum EnemyState
+    public enum EnemyState
     {
         Idle, Move, Attack, Return, Damaged, Die
     }
@@ -20,7 +20,7 @@ public class EnemyFSM : MonoBehaviour
     public float moveRange = 0f; //시작지점에서 최대 이동가능한 범위
     public float attackRange = 2f; //공격 가능 범위
 
-    EnemyState state;
+    public EnemyState state;
 
     Vector3 startPoint; //몬스터 시작위치
     //Quaternion startRotation; //몬스터 시적회전값
@@ -37,11 +37,6 @@ public class EnemyFSM : MonoBehaviour
     int att = 5; //공격력
     float speed = 5.0f; //이동속도
 
-    //몬스터 체력바
-    public GameObject hpbarCanvas;
-
-    //피격이펙트
-    public GameObject fxFactory;
 
     //공격 딜레이
     float attTime = 2f; //2초에 한번 공격
@@ -77,13 +72,13 @@ public class EnemyFSM : MonoBehaviour
         {
             findRange = 15f;
             moveRange = 30f;
-            hpbarCanvas.SetActive(true);
+
         }
         else
         {
             findRange = 0f;
             moveRange = 0f;
-            hpbarCanvas.SetActive(false);
+
             //state = EnemyState.Return;
             //print("상태전환 : Move -> return");
         }
@@ -243,23 +238,6 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        state = EnemyState.Damaged;
-
-        Debug.Log("총알 맞음");
-
-        if(collision.gameObject.name.Contains("Bullet"))
-        {
-            collision.gameObject.SetActive(false);
-        }
-
-        //이펙트 보여주기
-        GameObject fx = Instantiate(fxFactory);
-        fx.transform.position = transform.position;
-        Destroy(fx, 1.0f);
-    }
-
     //피격상태 (Any State)
     private void Damaged()
     { 
@@ -287,17 +265,19 @@ public class EnemyFSM : MonoBehaviour
         //- 상태변경
         //- 상태전환 출력 (죽었다)
 
+        anim.SetBool("isDie", true);
+        Destroy(gameObject);
         //진행중인 모든 코루틴은 정지한다
-        StopAllCoroutines();
+        //StopAllCoroutines();
 
         //죽음상태를 처리하기 위한 코루틴 실행
-        StartCoroutine(DieProc());
+        //StartCoroutine(DieProc());
     }
 
     IEnumerator DieProc()
     {
         //캐릭터컨트롤러 비활성화
-        cc.enabled = false;
+        //enabled = false;
         //에이전트 오프
         agent.enabled = false;
 

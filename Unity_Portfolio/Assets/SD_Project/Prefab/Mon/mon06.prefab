@@ -164,9 +164,13 @@ GameObject:
   - component: {fileID: 424660}
   - component: {fileID: 9572714}
   - component: {fileID: 6565018}
+  - component: {fileID: 242888800}
+  - component: {fileID: 4506384227202297306}
+  - component: {fileID: 1607913114}
+  - component: {fileID: 1607913115}
   m_Layer: 0
   m_Name: mon06
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,7 +201,7 @@ Animator:
   m_GameObject: {fileID: 121730}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7db544b5f3d520c4ebd8335cf616bf06, type: 3}
-  m_Controller: {fileID: 9100000, guid: e20915225dce8f947bb802f531bde5a5, type: 2}
+  m_Controller: {fileID: 9100000, guid: e79dfa1dfcd9c19439cba21ae87edfe8, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -219,6 +223,76 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.55, y: 0.85, z: 0.46}
   m_Center: {x: 0, y: 0.43, z: -0.01}
+--- !u!114 &242888800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c70ef82b1486fe468e6d27166f842bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findRange: 0
+  moveRange: 0
+  attackRange: 2
+  state: 0
+  hpbarCanvas: {fileID: 0}
+--- !u!114 &4506384227202297306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee52446c042fd894187ee6acee551d2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyMaxHp: 500
+  fxFactory: {fileID: 100002, guid: 545fbbc94e623d4419b23f631ecac72b, type: 3}
+--- !u!114 &1607913114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c70ef82b1486fe468e6d27166f842bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findRange: 0
+  moveRange: 0
+  attackRange: 2
+  state: 0
+  hpbarCanvas: {fileID: 0}
+--- !u!195 &1607913115
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121730}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.8
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &122498
 GameObject:
   m_ObjectHideFlags: 0
