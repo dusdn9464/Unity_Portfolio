@@ -41,13 +41,13 @@ public class ThirdPersonCamera : MonoBehaviour
 		if(Input.GetButton("Fire1"))	// left Ctlr
 		{	
 			// Change Front Camera
-			setCameraPositionFrontView();
+			//setCameraPositionFrontView();
 		}
 		
 		else if(Input.GetButton("Fire2"))	//Alt
 		{	
 			// Change Jump Camera
-			setCameraPositionJumpView();
+			//setCameraPositionJumpView();
 		}
 		
 		else
