@@ -20,8 +20,23 @@ public class BossController : MonoBehaviour
     float timer = 0f;
 
     //공격 이펙트
+    //attack1
     public GameObject notice;
     public GameObject lightningAttack;
+    public GameObject backGround;
+    public GameObject electric;
+    int attackCount = 0;
+    //attack2
+    public GameObject fireCircle;
+    public GameObject fireBallFactory;
+    public GameObject fbFirePoint;
+    int fireballCnt = 0;
+    //오브젝트 풀링
+    //int poolSize = 10;
+    //int fireIndex = 0;
+    //public List<GameObject> fireballPool;
+    bool isStart = true;    
+    //attack3
 
 
     // Start is called before the first frame update
@@ -30,7 +45,19 @@ public class BossController : MonoBehaviour
         state = BossState.Idle;
         player = GameObject.Find("Player").transform;
         anim = GetComponentInChildren<Animator>();
+        //InitObjectPooling();
     }
+
+    //private void InitObjectPooling()
+    //{
+    //    fireballPool = new List<GameObject>();
+    //    for(int i=0; i<poolSize;i++)
+    //    {
+    //        GameObject bullet = Instantiate(fireBallFactory);
+    //        bullet.SetActive(false);
+    //        fireballPool.Add(bullet);
+    //    }
+    //}
 
     // Update is called once per frame
     void Update()
@@ -49,7 +76,12 @@ public class BossController : MonoBehaviour
                 }
                 break;
             case BossState.Attack2:
-                Attack2();
+                timer += Time.deltaTime;
+                if (timer > attTime)
+                {
+                    Attack2();
+                    timer = 0f;
+                }
                 break;
             case BossState.Attack3:
                 Attack3();
@@ -66,7 +98,7 @@ public class BossController : MonoBehaviour
 
     private void Idle()
     {
-        
+        transform.LookAt(player.position);
         int randNum = Random.Range(1,4);
         timer += Time.deltaTime;
         Debug.Log("Timer : " + timer);
@@ -80,12 +112,14 @@ public class BossController : MonoBehaviour
             }
             else if (randNum == 2)
             {
-                Attack2();
+                state = BossState.Attack2;
+                anim.SetBool("isAttack2", true);
                 timer = 0f;
             }
             else
             {
-                Attack3();
+                state = BossState.Attack3;
+                anim.SetBool("isAttack3", true);
                 timer = 0f;
             }
         }
@@ -95,12 +129,14 @@ public class BossController : MonoBehaviour
     private void Attack1()
     {
         transform.LookAt(player.position);
+        backGround.SetActive(true);
+        electric.SetActive(true);
         StartCoroutine(Thunder());
     }
 
     IEnumerator Thunder()
     {
-        int attackCount = 0;
+        
         attackCount++;
         GameObject danger = Instantiate(notice, player.position, Quaternion.Euler(transform.eulerAngles + new Vector3(-90, 0, 0)));
         yield return new WaitForSeconds(1.5f);
@@ -111,20 +147,44 @@ public class BossController : MonoBehaviour
         {
             state = BossState.Idle;
             anim.SetBool("isAttack1", false);
-            Debug.Log("Boss State : " + state);
+            backGround.SetActive(false);
+            electric.SetActive(false);
+            //Debug.Log("Boss State : " + state);
         }
     }
 
-    //플레이어위치로 점프하기
+    //플레이어위치로 파이어볼
     private void Attack2()
     {
+        transform.LookAt(player.position);
+        fireCircle.SetActive(true);
+
+        StartCoroutine(FireBallFire());
+
 
     }
 
-    //플레이어한테 파이어볼
+    IEnumerator FireBallFire()
+    {
+        isStart = false;
+        fireballCnt++;
+        GameObject bullet = Instantiate(fireBallFactory);
+        bullet.transform.position = fbFirePoint.transform.position;
+        yield return new WaitForSeconds(3f);
+        isStart = true;
+
+        if(fireballCnt > 3)
+        {
+            state = BossState.Idle;
+            anim.SetBool("isAttack2", false);
+            fireCircle.SetActive(false);
+        }
+    }
+
+    //플레이어한테 점프하기
     private void Attack3()
     {
-
+        state = BossState.Idle;
     }
 
 
