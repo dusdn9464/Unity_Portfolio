@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -23,6 +23,7 @@ public class PlayerMove : MonoBehaviour
     public GameObject bulletFactory;
     public GameObject firePoint;
     public GameObject attackEffect;
+
 
     //오브젝트 풀링
     int poolSize = 20;
@@ -63,12 +64,42 @@ public class PlayerMove : MonoBehaviour
     {
         Move();
         Attack();
+        //Damage();
+        //Die();
+        
+    }
+
+    private void Die()
+    {
+        if (PlayerHpBar.instance.isDie)
+        {
+            anim.SetBool("isDie", true);
+        }
+    }
+
+    private void Damage()
+    {
+        if (PlayerHpBar.instance.isDamaged == true)
+        {
+            anim.SetBool("isDamaged", true);
+        }
+        else if(PlayerHpBar.instance.isDamaged == false)
+        {
+            anim.SetBool("isDamaged", false);
+        }
     }
 
     private void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+
+        //조이스틱으로 움직이기
+        //if(h == 0 && v == 0)
+        //{
+        //    h = joystick.Horizontal;
+        //    v = joystick.Vertical;
+        //}
 
         Vector3 dir = Vector3.right * h + Vector3.forward * v;
         dir.Normalize();
@@ -97,7 +128,7 @@ public class PlayerMove : MonoBehaviour
             //anim.SetTrigger("Idle");
             anim.SetBool("Jump", false);
         }
-        if (Input.GetButtonDown("Jump") && jumpCount < 2)
+        if ((Input.GetButtonDown("Jump") || PlayerButton.instance.isJump) && jumpCount < 2)
         {
             anim.SetBool("Jump", true);
             velocityY = jumpPower;
@@ -107,9 +138,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Attack()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) || PlayerButton.instance.isAttack == true)
         {
-            int randomAtk = Random.Range(1,4);
+            int randomAtk = UnityEngine.Random.Range(1,4);
             if (randomAtk == 1)
             {
                 anim.SetTrigger("Attack1");
@@ -142,4 +173,6 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+
+
 }

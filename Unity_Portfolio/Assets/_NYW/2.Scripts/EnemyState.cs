@@ -22,8 +22,6 @@ public class EnemyState : MonoBehaviour
     {
         EnemyFSM.instance.state = EnemyFSM.EnemyState.Damaged;
 
-        Debug.Log("총알 맞음");
-
         if (collision.gameObject.name.Contains("Bullet"))
         {
             if (currentHp > 0)

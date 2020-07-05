@@ -10,6 +10,18 @@ public class PlayerHpBar : MonoBehaviour
 
     public Slider hpBar;
 
+    public bool isDie = false;
+    public bool isDamaged = false;
+
+    public GameObject gameOverImg;
+
+    public static PlayerHpBar instance;
+
+    private void Awake()
+    {
+        PlayerHpBar.instance = this;
+    }
+
     // Update is caslled once per frame
     void Update()
     {
@@ -18,10 +30,27 @@ public class PlayerHpBar : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Attack"))
+        if(other.gameObject.CompareTag("Attack")
+            ||other.gameObject.CompareTag("Thunderbolt")
+            ||other.gameObject.CompareTag("FireBall"))
         {
-            Debug.Log("Name : " + other.gameObject.name);
-            currentHp -= 100f;
+            if (currentHp > 0)
+            {
+                //Debug.Log("Name : " + other.gameObject.name);
+                isDamaged = true;
+                currentHp -= 100f;
+                other.gameObject.SetActive(false);
+            }
+            else
+            {
+                isDie = true;
+                gameOverImg.SetActive(true);
+            }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        isDamaged = false;
     }
 }

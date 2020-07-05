@@ -7,6 +7,8 @@ TagManager:
   - FxTemporaire
   - Enemy
   - Attack
+  - FireBall
+  - Thunderbolt
   layers:
   - Default
   - TransparentFX

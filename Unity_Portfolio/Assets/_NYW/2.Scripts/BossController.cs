@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    enum BossState
+    public static BossController instance;
+
+    public enum BossState
     {
         Idle,Attack1,Attack2,Attack3, Damaged,Die
     }
 
-    BossState state;
+    public BossState state;
 
     Animator anim;
 
@@ -31,33 +33,27 @@ public class BossController : MonoBehaviour
     public GameObject fireBallFactory;
     public GameObject fbFirePoint;
     int fireballCnt = 0;
-    //오브젝트 풀링
-    //int poolSize = 10;
-    //int fireIndex = 0;
-    //public List<GameObject> fireballPool;
-    bool isStart = true;    
-    //attack3
+    bool isStart = true;
+
+    //게임클리어
+    public GameObject gameClearImg;
 
 
+
+
+    private void Awake()
+    {
+        BossController.instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
         state = BossState.Idle;
         player = GameObject.Find("Player").transform;
         anim = GetComponentInChildren<Animator>();
-        //InitObjectPooling();
     }
 
-    //private void InitObjectPooling()
-    //{
-    //    fireballPool = new List<GameObject>();
-    //    for(int i=0; i<poolSize;i++)
-    //    {
-    //        GameObject bullet = Instantiate(fireBallFactory);
-    //        bullet.SetActive(false);
-    //        fireballPool.Add(bullet);
-    //    }
-    //}
+
 
     // Update is called once per frame
     void Update()
@@ -83,9 +79,6 @@ public class BossController : MonoBehaviour
                     timer = 0f;
                 }
                 break;
-            case BossState.Attack3:
-                Attack3();
-                break;
             case BossState.Damaged:
                 damaged();
                 break;
@@ -98,10 +91,11 @@ public class BossController : MonoBehaviour
 
     private void Idle()
     {
+        anim.SetBool("isDamaged", false);
         transform.LookAt(player.position);
-        int randNum = Random.Range(1,4);
+        int randNum = Random.Range(1,3);
         timer += Time.deltaTime;
-        Debug.Log("Timer : " + timer);
+        //Debug.Log("Timer : " + timer);
         if(timer > attTime)
         {
             if (randNum == 1)
@@ -114,12 +108,6 @@ public class BossController : MonoBehaviour
             {
                 state = BossState.Attack2;
                 anim.SetBool("isAttack2", true);
-                timer = 0f;
-            }
-            else
-            {
-                state = BossState.Attack3;
-                anim.SetBool("isAttack3", true);
                 timer = 0f;
             }
         }
@@ -181,20 +169,21 @@ public class BossController : MonoBehaviour
         }
     }
 
-    //플레이어한테 점프하기
-    private void Attack3()
-    {
-        state = BossState.Idle;
-    }
 
 
     private void damaged()
     {
-        
+        //애니메이션
+        //anim.SetBool("isDamaged", true);
+
+
     }
 
     private void Die()
     {
-        
+        anim.SetBool("isDie", true);
+        //몇초뒤 게임클리어 이미지 띄우기
+        //일시정지
+        gameClearImg.SetActive(true);
     }
 }

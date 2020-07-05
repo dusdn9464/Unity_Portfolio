@@ -21,6 +21,7 @@ public class Quest : MonoBehaviour
 
     public void OnYesButtonClick()
     {
+        questNotice.SetActive(true);
         questPanel.SetActive(false);
     }
 

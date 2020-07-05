@@ -15,7 +15,6 @@ public class SantaQuest : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Debug.Log("확인");
                 questPanel.SetActive(true);
             }
         }
