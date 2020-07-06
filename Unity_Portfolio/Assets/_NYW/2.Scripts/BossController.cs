@@ -181,9 +181,14 @@ public class BossController : MonoBehaviour
 
     private void Die()
     {
-        anim.SetBool("isDie", true);
+        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("isDie"))
+        {
+            anim.SetBool("isDie", true);
+        }
         //몇초뒤 게임클리어 이미지 띄우기
         //일시정지
+        AddQuestNum.instance.Count();
+
         gameClearImg.SetActive(true);
     }
 }

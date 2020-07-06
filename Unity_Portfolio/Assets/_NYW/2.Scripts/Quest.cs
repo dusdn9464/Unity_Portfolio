@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class Quest : MonoBehaviour
 {
+    //산타메인퀘스트
     public GameObject questPanel;
     public GameObject questNotice;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    //서브퀘스트
+    public GameObject boardQuestPanel;
+    public GameObject boardQuestNotice;
 
     public void OnYesButtonClick()
     {
@@ -28,5 +20,16 @@ public class Quest : MonoBehaviour
     public void OnNoButtonClick()
     {
         questPanel.SetActive(false);
+    }
+
+    public void OnBoardYesButtonClick()
+    {
+        boardQuestPanel.SetActive(false);
+        boardQuestNotice.SetActive(true);
+    }
+
+    public void OnBoardNoButtonClick()
+    {
+        boardQuestPanel.SetActive(false);
     }
 }
