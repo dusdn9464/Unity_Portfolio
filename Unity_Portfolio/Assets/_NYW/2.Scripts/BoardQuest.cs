@@ -18,7 +18,7 @@ public class BoardQuest : MonoBehaviour
             {
                 questPanel.SetActive(true);
                 questPanel.transform.parent.gameObject.SetActive(true);
-                Debug.Log("보드퀘스트 활성화 : " + questPanel.activeSelf);
+                //Debug.Log("보드퀘스트 활성화 : " + questPanel.activeSelf);
             }
         }
     }

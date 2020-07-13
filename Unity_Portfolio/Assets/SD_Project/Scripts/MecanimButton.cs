@@ -9,7 +9,7 @@ public class MecanimButton : MonoBehaviour
 
 	void OnMouseDown ()
 	{
-		Debug.Log ("Triggered : " + int_name);
+		//Debug.Log ("Triggered : " + int_name);
 		//animator.SetTrigger(trigger_name);
 		foreach(Animator a in animator){
 			a.SetInteger(int_name,event_value);

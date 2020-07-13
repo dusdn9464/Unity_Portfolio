@@ -24,8 +24,8 @@ public class Quest : MonoBehaviour
 
     public void OnBoardYesButtonClick()
     {
-        boardQuestPanel.SetActive(false);
         boardQuestNotice.SetActive(true);
+        boardQuestPanel.SetActive(false);
     }
 
     public void OnBoardNoButtonClick()

@@ -68,6 +68,8 @@ public class EnemyFSM : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("EnemyFSM Current State : " + state);
+
         if (EnemyActive.instance.isTouch)
         {
             findRange = 15f;
@@ -143,9 +145,12 @@ public class EnemyFSM : MonoBehaviour
         }
         else //공격범위 안에 들어옴
         {
-            state = EnemyState.Attack;
-            print("상태전환 : Move -> Attack");
-            anim.SetTrigger("Attack");
+            if (EnemyHpBar.instance.currentHp > 0)
+            {
+                state = EnemyState.Attack;
+                print("상태전환 : Move -> Attack");
+                anim.SetTrigger("Attack");
+            }
         }
     }
 
@@ -264,7 +269,7 @@ public class EnemyFSM : MonoBehaviour
         //2. 몬스터 오브젝트 삭제
         //- 상태변경
         //- 상태전환 출력 (죽었다)
-
+        Debug.Log("State : Die");
         anim.SetBool("isDie", true);
         Destroy(gameObject);
         //진행중인 모든 코루틴은 정지한다

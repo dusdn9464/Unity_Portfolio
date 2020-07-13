@@ -12,7 +12,7 @@ public class EnemyHpBar : MonoBehaviour
     Camera mainCam = null;
 
     public float enemyMaxHp = 500f;
-    float currentHp = 500f;
+    public float currentHp = 500f;
 
     //피격이펙트
     public GameObject fxFactory;
@@ -44,7 +44,7 @@ public class EnemyHpBar : MonoBehaviour
     {
         EnemyFSM.instance.state = EnemyFSM.EnemyState.Damaged;
 
-        Debug.Log("총알 맞음");
+        //Debug.Log("총알 맞음");
 
         if (collision.gameObject.name.Contains("Bullet"))
         {
@@ -55,7 +55,11 @@ public class EnemyHpBar : MonoBehaviour
             }
             else
             {
+                Debug.Log("EnemyDie");
+                AddQuestNum.instance.MonsterCount();
                 EnemyFSM.instance.state = EnemyFSM.EnemyState.Die;
+                Destroy(gameObject);
+                Debug.Log("Current State : " + EnemyFSM.instance.state);
             }
         }
 

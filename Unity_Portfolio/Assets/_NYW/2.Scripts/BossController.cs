@@ -130,7 +130,7 @@ public class BossController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Instantiate(lightningAttack, danger.transform.position, Quaternion.identity);
         Destroy(danger);
-        Debug.Log("Attack Count : " + attackCount);
+        //Debug.Log("Attack Count : " + attackCount);
         if (attackCount > 3)
         {
             state = BossState.Idle;
